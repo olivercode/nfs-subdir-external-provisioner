@@ -1,21 +1,29 @@
-kind: Pod
+kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: test-pod
+  name: webfile
+spec:
+  storageClassName: managed-nfs-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Mi
+
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-test
 spec:
   containers:
-  - name: test-pod
-    image: busybox:stable
-    command:
-      - "/bin/sh"
-    args:
-      - "-c"
-      - "touch /mnt/SUCCESS && exit 0 || exit 1"
-    volumeMounts:
-      - name: nfs-pvc
-        mountPath: "/mnt"
-  restartPolicy: "Never"
+    - name: nginx
+      image: nginx:latest
+      volumeMounts:
+        - name: website
+          mountPath: /var/www/html
   volumes:
-    - name: nfs-pvc
+    - name: website
       persistentVolumeClaim:
-        claimName: test-claim
+        claimName: webfile

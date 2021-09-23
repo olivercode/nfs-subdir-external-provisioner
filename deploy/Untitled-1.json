@@ -1,0 +1,18 @@
+{
+    "proxies":
+        {
+            "default":
+            {
+                        "httpProxy": "http://10.200.0.68:1080"
+            }
+        }
+}
+
+
+"proxies":
+{
+  "default":
+  {
+    "httpProxy": "http://10.200.0.68:1080"
+  }
+}
